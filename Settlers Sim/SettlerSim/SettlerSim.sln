@@ -1,9 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettlerSim", "SettlerSim\SettlerSim.csproj", "{8032AFCA-507B-467C-9687-5360E9B446CF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A} = {9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettlerSimLib", "SettlerSimLib\SettlerSimLib.csproj", "{8D8BEE21-009B-4A25-B20A-3784434A87A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettlerSimAPI", "SettlerSimAPI\SettlerSimAPI.csproj", "{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +40,16 @@ Global
 		{8D8BEE21-009B-4A25-B20A-3784434A87A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8D8BEE21-009B-4A25-B20A-3784434A87A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8D8BEE21-009B-4A25-B20A-3784434A87A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
