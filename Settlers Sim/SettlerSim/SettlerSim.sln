@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettlerSim", "SettlerSim\SettlerSim.csproj", "{8032AFCA-507B-467C-9687-5360E9B446CF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A} = {9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}

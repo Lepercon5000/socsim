@@ -24,15 +24,15 @@ namespace SettlerSimLib
         Sand = 5
     }
 
-    public enum SeaType
+    public enum SeaHarbor
     {
         WoodHarbor = CardType.Wood,
         SheepHarbor = CardType.Sheep,
         WheatHarbor = CardType.Wheat,
         RockHarbor = CardType.Rock,
         ClayHarbor = CardType.Clay,
-        AnyTrade = 6,
-        Sea = LandType.Sand
+        ThreeHarbor = 5,
+        NotHarbor = 6
     }
 
     public enum NeighboringHex
@@ -55,58 +55,216 @@ namespace SettlerSimLib
         BottomLeft = 5
     }
 
+    public class Edge
+    {
+        public Edge(LocationPoint point1, LocationPoint point2)
+        {
+            Occupied = false;
+            connectingPoints = new LocationPoint[2];
+            Point1 = point1;
+            Point2 = point2;
+        }
+        private LocationPoint[] connectingPoints;
+        public LocationPoint[] ConnectingPoints
+        {
+            get
+            {
+                return connectingPoints;
+            }
+        }
+
+        public LocationPoint Point1
+        {
+            get
+            {
+                return connectingPoints[0];
+            }
+            private set
+            {
+                connectingPoints[0] = value;
+            }
+        }
+        public LocationPoint Point2
+        {
+            get
+            {
+                return connectingPoints[1];
+            }
+            private set
+            {
+                connectingPoints[1] = value;
+            }
+        }
+        public bool Occupied { get; set; }
+    }
+
     public class LocationPoint
     {
-        public List<Hex> attachedHex;
+        public List<Hex> AttachedHex;
+        public List<Edge> Edges;
+        public SeaHarbor Harbor { get; set; }
+
+        public bool PointIsNeighboring(LocationPoint point)
+        {
+            foreach (Edge edge in Edges)
+            {
+                if (edge.ConnectingPoints.Contains(point))
+                    return true;
+            }
+            return false;
+        }
 
         public LocationPoint(Hex attachingHex)
         {
-            attachedHex = new List<Hex>();
-            attachedHex.Add(attachingHex);
+            AttachedHex = new List<Hex>();
+            Edges = new List<Edge>();
+            AttachedHex.Add(attachingHex);
+            Harbor = SeaHarbor.NotHarbor;
         }
     }
 
-    public abstract class Hex
+    public class PointCollection
     {
-        private Hex[] neighboringHexes;
-        public LocationPoint[] points;
-
-        public Hex()
+        public PointCollection()
         {
-            neighboringHexes = new Hex[6];
-            for (int i = 0; i < 6; ++i)
-                neighboringHexes[i] = null;
-
             points = new LocationPoint[6];
             for (int i = 0; i < 6; ++i)
                 points[i] = null;
         }
+        private LocationPoint[] points;
+        public LocationPoint this[int index]
+        {
+            get
+            {
+                return points[index];
+            }
+            set
+            {
+                points[index] = value;
+            }
+        }
+        public LocationPoint this[LocationPoints index]
+        {
+            get
+            {
+                return this[(int)index];
+            }
+            set
+            {
+                this[(int)index] = value;
+            }
+        }
+
+        public LocationPoint Left
+        {
+            get
+            {
+                return this[LocationPoints.Left];
+            }
+            set
+            {
+                this[LocationPoints.Left] = value;
+            }
+        }
+        public LocationPoint TopLeft
+        {
+            get
+            {
+                return this[LocationPoints.TopLeft];
+            }
+            set
+            {
+                this[LocationPoints.TopLeft] = value;
+            }
+        }
+        public LocationPoint TopRight
+        {
+            get
+            {
+                return this[LocationPoints.TopRight];
+            }
+            set
+            {
+                this[LocationPoints.TopRight] = value;
+            }
+        }
+        public LocationPoint Right
+        {
+            get
+            {
+                return this[LocationPoints.Right];
+            }
+            set
+            {
+                this[LocationPoints.Right] = value;
+            }
+        }
+        public LocationPoint BottomRight
+        {
+            get
+            {
+                return this[LocationPoints.BottomRight];
+            }
+            set
+            {
+                this[LocationPoints.BottomRight] = value;
+            }
+        }
+        public LocationPoint BottomLeft
+        {
+            get
+            {
+                return this[LocationPoints.BottomLeft];
+            }
+            set
+            {
+                this[LocationPoints.BottomLeft] = value;
+            }
+        }
+        
+    }
+
+    public class Hex
+    {
+        private Hex[] neighboringHexes;
+        public PointCollection Points;
+
+        public Hex(LandType type)
+        {
+            landType = type;
+
+            neighboringHexes = new Hex[6];
+            for (int i = 0; i < 6; ++i)
+                neighboringHexes[i] = null;
+
+            Points = new PointCollection();
+        }
 
         private void ConnectLocationPoints(NeighboringHex neighboringHex, LocationPoints thisLocation, LocationPoints neighboringLocation)
         {
-            if (this.points[(int)thisLocation] == null)
+            if (this.Points[thisLocation] == null)
             {
-                if (this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation] == null)
+                if (this.neighboringHexes[(int)neighboringHex].Points[neighboringLocation] == null)
                 {
-                    this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation] = new LocationPoint(this.neighboringHexes[(int)neighboringHex]);
+                    this.neighboringHexes[(int)neighboringHex].Points[neighboringLocation] = new LocationPoint(this.neighboringHexes[(int)neighboringHex]);
                 }
-                this.points[(int)thisLocation] = this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation];
-                if (!this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation].attachedHex.Contains(this))
-                    this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation].attachedHex.Add(this);
+                this.Points[thisLocation] = this.neighboringHexes[(int)neighboringHex].Points[neighboringLocation];
+                if (!this.neighboringHexes[(int)neighboringHex].Points[neighboringLocation].AttachedHex.Contains(this))
+                    this.neighboringHexes[(int)neighboringHex].Points[neighboringLocation].AttachedHex.Add(this);
             }
             else
             {
-                if (this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation] == null)
+                if (this.neighboringHexes[(int)neighboringHex].Points[neighboringLocation] == null)
                 {
-                    this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation] = this.points[(int)thisLocation];
-                    if (!this.points[(int)thisLocation].attachedHex.Contains(this.neighboringHexes[(int)neighboringHex]))
-                        this.points[(int)thisLocation].attachedHex.Add(this.neighboringHexes[(int)neighboringHex]);
+                    this.neighboringHexes[(int)neighboringHex].Points[neighboringLocation] = this.Points[thisLocation];
+                    if (!this.Points[thisLocation].AttachedHex.Contains(this.neighboringHexes[(int)neighboringHex]))
+                        this.Points[thisLocation].AttachedHex.Add(this.neighboringHexes[(int)neighboringHex]);
                 }
                 else
                 {
-                    this.points[(int)thisLocation] = this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation];
-                    if (!this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation].attachedHex.Contains(this))
-                        this.neighboringHexes[(int)neighboringHex].points[(int)neighboringLocation].attachedHex.Add(this);
+                    this.Points[(int)thisLocation] = this.neighboringHexes[(int)neighboringHex].Points[(int)neighboringLocation];
+                    if (!this.neighboringHexes[(int)neighboringHex].Points[(int)neighboringLocation].AttachedHex.Contains(this))
+                        this.neighboringHexes[(int)neighboringHex].Points[(int)neighboringLocation].AttachedHex.Add(this);
                 }
             }
         }
@@ -257,28 +415,7 @@ namespace SettlerSimLib
                 }
             }
         }
-    }
 
-    public class SeaHex : Hex
-    {
-        private SeaType seaType;
-        public SeaType SeaType
-        {
-            get
-            {
-                return seaType;
-            }
-        }
-
-        public SeaHex(SeaType type)
-            : base()
-        {
-            seaType = type;
-        }
-    }
-
-    public class LandHex : Hex
-    {
         private LandType landType;
         public LandType LandType
         {
@@ -291,19 +428,13 @@ namespace SettlerSimLib
                 landType = value;
             }
         }
-
-        public LandHex(LandType type)
-            : base()
-        {
-            landType = type;
-        }
     }
 
-    public class SettlerSim
+    public class SettlerBoard
     {
         private List<Hex> gameArea;
 
-        public void ConnectBoard()
+        private void ConnectBoard()
         {
             for(int i = 0; i < 3; ++i)
             {
@@ -354,13 +485,93 @@ namespace SettlerSimLib
             {
                 for (int j = 0; j < 6; ++j)
                 {
-                    if (gameArea[i].points[j] == null)
-                        gameArea[i].points[j] = new LocationPoint(gameArea[i]);
+                    if (gameArea[i].Points[j] == null)
+                        gameArea[i].Points[j] = new LocationPoint(gameArea[i]);
+                }
+            }
+
+            //Connect the Sea Harbor Points
+            Random rand = new Random();
+            List<SeaHarbor> seaHarbors = new List<SeaHarbor>();
+            for (int i = 0; i < 6; ++i)
+            {
+                if (SeaHarbor.ThreeHarbor == (SeaHarbor)i)
+                {
+                    for (int j = 0; j < 3; ++j)
+                        seaHarbors.Add((SeaHarbor)i);
+                }
+                seaHarbors.Add((SeaHarbor)i);
+            }
+
+            int randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[0].Points[(int)LocationPoints.TopLeft].Harbor = seaHarbors[randomHarbor];
+            gameArea[0].Points[(int)LocationPoints.TopRight].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+
+            randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[1].Points[(int)LocationPoints.TopRight].Harbor = seaHarbors[randomHarbor];
+            gameArea[1].Points[(int)LocationPoints.Right].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+
+            randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[6].Points[(int)LocationPoints.TopRight].Harbor = seaHarbors[randomHarbor];
+            gameArea[6].Points[(int)LocationPoints.Right].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+
+            randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[11].Points[(int)LocationPoints.Right].Harbor = seaHarbors[randomHarbor];
+            gameArea[11].Points[(int)LocationPoints.BottomRight].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+
+            randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[15].Points[(int)LocationPoints.BottomRight].Harbor = seaHarbors[randomHarbor];
+            gameArea[15].Points[(int)LocationPoints.BottomLeft].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+
+            randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[17].Points[(int)LocationPoints.BottomRight].Harbor = seaHarbors[randomHarbor];
+            gameArea[17].Points[(int)LocationPoints.BottomLeft].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+
+            randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[16].Points[(int)LocationPoints.BottomLeft].Harbor = seaHarbors[randomHarbor];
+            gameArea[16].Points[(int)LocationPoints.Left].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+
+            randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[12].Points[(int)LocationPoints.Left].Harbor = seaHarbors[randomHarbor];
+            gameArea[12].Points[(int)LocationPoints.TopLeft].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+
+            randomHarbor = rand.Next() % seaHarbors.Count;
+            gameArea[3].Points[(int)LocationPoints.Left].Harbor = seaHarbors[randomHarbor];
+            gameArea[3].Points[(int)LocationPoints.TopLeft].Harbor = seaHarbors[randomHarbor];
+            seaHarbors.RemoveAt(randomHarbor);
+        }
+
+        private void FindPointsToConenct(Hex hex)
+        {
+            for (int i = 0; i < 6; ++i)
+            {
+                int toConnect = (i + 1) % 6;
+                if (!hex.Points[i].PointIsNeighboring(hex.Points[toConnect]))
+                {
+                    Edge edge = new Edge(hex.Points[i], hex.Points[toConnect]);
+                    hex.Points[i].Edges.Add(edge);
+                    hex.Points[toConnect].Edges.Add(edge);
                 }
             }
         }
 
-        public void SetupGameBoard()
+        private void ConnectPoints()
+        {
+            foreach (Hex hex in gameArea)
+            {
+                FindPointsToConenct(hex);
+            }
+        }
+
+        private void SetupGameBoard()
         {
             Random rand = new Random();
             gameArea = new List<Hex>();
@@ -378,49 +589,21 @@ namespace SettlerSimLib
                     landTypes.Add((LandType)i);
             }
 
-            List<SeaType> seaTypes = new List<SeaType>();
-            seaTypes.Add(SeaType.WheatHarbor);
-            seaTypes.Add(SeaType.WoodHarbor);
-            seaTypes.Add(SeaType.SheepHarbor);
-            seaTypes.Add(SeaType.RockHarbor);
-            seaTypes.Add(SeaType.ClayHarbor);
-            for (int i = 0; i < 4; ++i)
-                seaTypes.Add(SeaType.AnyTrade);
-
             while (landTypes.Any())
             {
                 int randValue = (rand.Next() % landTypes.Count);
                 LandType currentType = landTypes[randValue];
-                gameArea.Add(new LandHex(currentType));
+                gameArea.Add(new Hex(currentType));
                 landTypes.RemoveAt(randValue);
             }
 
-
-            for (int i = 0; i < 18; ++i)
-            {
-                SeaType currentType;
-                int randValue = 0;
-                if ((i % 2) == 1)
-                    currentType = SeaType.Sea;
-                else
-                {
-                    randValue = (rand.Next(seaTypes.Count - 1));
-                    currentType = seaTypes[randValue];
-                }
-                gameArea.Add(new SeaHex(currentType));
-                if (currentType != SeaType.Sea)
-                    seaTypes.RemoveAt(randValue);
-            }
-
             ConnectBoard();
+            ConnectPoints();
+        }
 
-            List<LocationPoint> points = new List<LocationPoint>();
-            for (int i = 0; i < 19; ++i)
-            {
-                Console.WriteLine("Tile " + i + " has type " + Enum.GetName(typeof(LandType), ((LandHex)gameArea[i]).LandType));
-            }
-
-            Console.ReadLine();
+        public SettlerBoard()
+        {
+            SetupGameBoard();
         }
     }
 }

@@ -10,8 +10,7 @@ namespace SettlerSim
     {
         static void Main(string[] args)
         {
-            SettlerSimLib.SettlerSim testing = new SettlerSimLib.SettlerSim();
-            testing.SetupGameBoard();
+            SettlerSimLib.SettlerBoard testing = new SettlerSimLib.SettlerBoard();
         }
     }
 }
