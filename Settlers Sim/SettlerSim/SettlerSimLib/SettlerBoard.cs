@@ -227,11 +227,33 @@ namespace SettlerSimLib
     public class Hex
     {
         private Hex[] neighboringHexes;
+        public Hex[] NeighboringHexes
+        {
+            get
+            {
+                return neighboringHexes;
+            }
+        }
+        private int diceRoleValue;
+        public int DiceRoleValue
+        {
+            get
+            {
+                return diceRoleValue;
+            }
+            set
+            {
+                if (diceRoleValue == -1)
+                    diceRoleValue = value;
+            }
+        }
+
         public PointCollection Points;
 
         public Hex(LandType type)
         {
             landType = type;
+            diceRoleValue = -1;
 
             neighboringHexes = new Hex[6];
             for (int i = 0; i < 6; ++i)
@@ -571,6 +593,75 @@ namespace SettlerSimLib
             }
         }
 
+        private void HighProbabilyDiceValuesSetup()
+        {
+            // Pick an initial random point
+            List<int> values = new List<int>();
+            for(int i = 0; i < 4; ++i)
+            {
+                if ((i % 2) == 0)
+                    values.Add(8);
+                else
+                    values.Add(6);
+            }
+            Random rand = new Random();
+            while (values.Any())
+            {
+                // Pick a random hex
+                Hex hex = gameArea[rand.Next() % gameArea.Count];
+
+                // Check if that hexes neighboring hexes have a high probability number.
+                bool neighboringHexWithHighProb = false;
+                foreach (Hex neighboringHex in hex.NeighboringHexes)
+                {
+                    if ((hex.DiceRoleValue == 6) || (hex.DiceRoleValue == 8))
+                        neighboringHexWithHighProb = true;
+                }
+
+                // If no neighboring hexes have a high probability number.
+                if (!neighboringHexWithHighProb && hex.LandType != LandType.Sand)
+                {
+                    hex.DiceRoleValue = values.First();
+                    values.RemoveAt(0);
+                }
+            }
+        }
+
+        private void RestOfDiceValuesSetup()
+        {
+            List<int> values = new List<int>();
+            for (int i = 2; i <= 12; ++i)
+            {
+                if ((i != 6) && (i != 8) && (i != 7))
+                {
+                    values.Add(i);
+                    if ((i != 2) && (i != 12))
+                        values.Add(i);
+                }
+            }
+
+            Random rand = new Random();
+            while (values.Any())
+            {
+                // Pick a random hex
+                Hex hex = gameArea[rand.Next() % gameArea.Count];
+
+                // If not sand and the Dice Value was not already assigned
+                if ((hex.LandType != LandType.Sand) && hex.DiceRoleValue == -1)
+                {
+                    int randValue = rand.Next() % values.Count;
+                    hex.DiceRoleValue = values[randValue];
+                    values.RemoveAt(randValue);
+                }
+            }
+        }
+
+        private void SetDiceValuesForHexes()
+        {
+            HighProbabilyDiceValuesSetup();
+            RestOfDiceValuesSetup();
+        }
+
         private void SetupGameBoard()
         {
             Random rand = new Random();
@@ -599,6 +690,14 @@ namespace SettlerSimLib
 
             ConnectBoard();
             ConnectPoints();
+            SetDiceValuesForHexes();
+
+            for (int i = 0; i < gameArea.Count; ++i)
+            {
+                Hex hex = gameArea[i];
+                Console.WriteLine("Hex " + i + " has type " + Enum.GetName(typeof(LandType), hex.LandType) + " with dice value of " + hex.DiceRoleValue);
+            }
+            Console.ReadLine();
         }
 
         public SettlerBoard()
