@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SettlerSimLib;
+using SettlerSimAPI.TradeTypes;
 
 namespace SettlerSimAPI
 {
@@ -12,12 +14,29 @@ namespace SettlerSimAPI
         {         
             //Mock AI calls
             APIListener test = new APIListener();
-            test.getInstruction("Trade Harbor Wood Sheep");
+            Console.WriteLine("***************** Test 1");
+            test.getInstruction("Trade Bank Wood Sheep");
+            Console.WriteLine("***************** Test 2");
+            test.getInstruction("Cheat ahah");
+            Console.WriteLine("***************** Test 3");
+            test.getInstruction("");
+            Console.WriteLine("***************** Test 4");
+            test.getInstruction("Trade ");
+            Console.WriteLine("***************** Test 5");
+            test.getInstruction("Trade");
+            Console.WriteLine("***************** Test 6");
             test.getInstruction("Place Road Coord");
+            Console.WriteLine("***************** Test 7");
+            test.getInstruction("Trade Bank Three Wood");
+            Console.WriteLine("***************** Test 8");
+            test.getInstruction("Trade Bank Wood Sheep Clay");
+            Console.WriteLine("***************** Test 9");
+            test.getInstruction("Trade nothing");
 
             Console.ReadLine();
         }//end Main
     }//end SocSimTopAPI
+
 
 
     class APIListener
@@ -33,6 +52,9 @@ namespace SettlerSimAPI
         }
 
         private TradingAPI tradeHandler;
+        //private PlacingAPI placeHandler;
+        //private BuyingAPI buyHandler;
+        //private DevCardAPI devCardHandler;
 
         //Constructor
         public APIListener()
@@ -46,13 +68,14 @@ namespace SettlerSimAPI
             
 
             //Split instruction into substrings
-            string[] instructions = splitInput(input);
+            Stack<string> instructions = splitInput(input);
 
             //Determine top level instruction type
-            APITopLevelType instrType = getType(instructions);
+            APITopLevelType instrType = getCallType(instructions.Pop());
 
-            if (instrType != null)
+            if (instrType != APITopLevelType.Error)
             {
+                
                 switch (instrType)
                 {
                     case APITopLevelType.Buy:
@@ -77,40 +100,47 @@ namespace SettlerSimAPI
             else
             {
                 //Handle Bad Call
+                Console.WriteLine("BadCall");
                 return false;
             }
 
             return true;
         }//end getInstruction
 
-        private string[] splitInput(string input)
+        private Stack<string> splitInput(string input)
         {
+            Stack<string> temp = new Stack<string>(8);
             char[] delimeters = new char[] { ' ' };
+            string[] instrStrings = input.Split(delimeters);
 
-            return input.Split(delimeters);
+            for (int i = instrStrings.Length - 1; i >= 0; i--)
+            {
+                temp.Push(instrStrings[i]);
+            }
+
+            return temp;
         }
 
-        private APITopLevelType getType(String []instructions)
+        private APITopLevelType getCallType(String topLevel)
         {
 
-            if (instructions != null)
+            if (topLevel != null)
             {
-                string topLevelCommand = instructions[0];
 
                 //messy -> string constants
-                if (topLevelCommand.CompareTo("Buy") == 0)
+                if (topLevel.CompareTo("Buy") == 0)
                 {
                     return APITopLevelType.Buy;
                 }
-                else if (topLevelCommand.CompareTo("Place") == 0)
+                else if (topLevel.CompareTo("Place") == 0)
                 {
                     return APITopLevelType.Place;
                 }
-                else if (topLevelCommand.CompareTo("Trade") == 0)
+                else if (topLevel.CompareTo("Trade") == 0)
                 {
                     return APITopLevelType.Trade;
                 }
-                else if (topLevelCommand.CompareTo("DevCard") == 0)
+                else if (topLevel.CompareTo("DevCard") == 0)
                 {
                     return APITopLevelType.DevCard;
                 }

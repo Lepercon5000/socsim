@@ -41,9 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TradeTypes\BankTrade.cs" />
+    <Compile Include="TradeTypes\PlayerTrade.cs" />
+    <Compile Include="TradeTypes\HarborTrade.cs" />
     <Compile Include="SocSimTopAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TradingAPI.cs" />
+    <Compile Include="TradeTypes\APIHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SettlerSimLib\SettlerSimLib.csproj">
+      <Project>{8d8bee21-009b-4a25-b20a-3784434a87a1}</Project>
+      <Name>SettlerSimLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
