@@ -525,47 +525,47 @@ namespace SettlerSimLib
                 seaHarbors.Add((SeaHarbor)i);
             }
 
-            int randomHarbor = rand.Next() % seaHarbors.Count;
+            int randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[0].Points[(int)LocationPoints.TopLeft].Harbor = seaHarbors[randomHarbor];
             gameArea[0].Points[(int)LocationPoints.TopRight].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
 
-            randomHarbor = rand.Next() % seaHarbors.Count;
+            randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[1].Points[(int)LocationPoints.TopRight].Harbor = seaHarbors[randomHarbor];
             gameArea[1].Points[(int)LocationPoints.Right].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
 
-            randomHarbor = rand.Next() % seaHarbors.Count;
+            randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[6].Points[(int)LocationPoints.TopRight].Harbor = seaHarbors[randomHarbor];
             gameArea[6].Points[(int)LocationPoints.Right].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
 
-            randomHarbor = rand.Next() % seaHarbors.Count;
+            randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[11].Points[(int)LocationPoints.Right].Harbor = seaHarbors[randomHarbor];
             gameArea[11].Points[(int)LocationPoints.BottomRight].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
 
-            randomHarbor = rand.Next() % seaHarbors.Count;
+            randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[15].Points[(int)LocationPoints.BottomRight].Harbor = seaHarbors[randomHarbor];
             gameArea[15].Points[(int)LocationPoints.BottomLeft].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
 
-            randomHarbor = rand.Next() % seaHarbors.Count;
+            randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[17].Points[(int)LocationPoints.BottomRight].Harbor = seaHarbors[randomHarbor];
             gameArea[17].Points[(int)LocationPoints.BottomLeft].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
 
-            randomHarbor = rand.Next() % seaHarbors.Count;
+            randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[16].Points[(int)LocationPoints.BottomLeft].Harbor = seaHarbors[randomHarbor];
             gameArea[16].Points[(int)LocationPoints.Left].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
 
-            randomHarbor = rand.Next() % seaHarbors.Count;
+            randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[12].Points[(int)LocationPoints.Left].Harbor = seaHarbors[randomHarbor];
             gameArea[12].Points[(int)LocationPoints.TopLeft].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
 
-            randomHarbor = rand.Next() % seaHarbors.Count;
+            randomHarbor = rand.Next(seaHarbors.Count);
             gameArea[3].Points[(int)LocationPoints.Left].Harbor = seaHarbors[randomHarbor];
             gameArea[3].Points[(int)LocationPoints.TopLeft].Harbor = seaHarbors[randomHarbor];
             seaHarbors.RemoveAt(randomHarbor);
@@ -608,7 +608,7 @@ namespace SettlerSimLib
             while (values.Any())
             {
                 // Pick a random hex
-                Hex hex = gameArea[rand.Next() % gameArea.Count];
+                Hex hex = gameArea[rand.Next(gameArea.Count)];
 
                 // Check if that hexes neighboring hexes have a high probability number.
                 bool neighboringHexWithHighProb = false;
@@ -644,12 +644,12 @@ namespace SettlerSimLib
             while (values.Any())
             {
                 // Pick a random hex
-                Hex hex = gameArea[rand.Next() % gameArea.Count];
+                Hex hex = gameArea[rand.Next(gameArea.Count)];
 
                 // If not sand and the Dice Value was not already assigned
                 if ((hex.LandType != LandType.Sand) && hex.DiceRoleValue == -1)
                 {
-                    int randValue = rand.Next() % values.Count;
+                    int randValue = rand.Next(values.Count);
                     hex.DiceRoleValue = values[randValue];
                     values.RemoveAt(randValue);
                 }
@@ -682,7 +682,7 @@ namespace SettlerSimLib
 
             while (landTypes.Any())
             {
-                int randValue = (rand.Next() % landTypes.Count);
+                int randValue = (rand.Next(landTypes.Count));
                 LandType currentType = landTypes[randValue];
                 gameArea.Add(new Hex(currentType));
                 landTypes.RemoveAt(randValue);
