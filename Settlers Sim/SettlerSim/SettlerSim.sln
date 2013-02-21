@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettlerSim", "SettlerSim\SettlerSim.csproj", "{8032AFCA-507B-467C-9687-5360E9B446CF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A} = {9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}
@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettlerSimAPI", "SettlerSim
 	ProjectSection(ProjectDependencies) = postProject
 		{8D8BEE21-009B-4A25-B20A-3784434A87A1} = {8D8BEE21-009B-4A25-B20A-3784434A87A1}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettlerAIApp", "SettlerAIApp\SettlerAIApp.csproj", "{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,16 @@ Global
 		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9565BAE9-D9C2-4147-B2ED-B56240F1AD9A}.Release|x86.ActiveCfg = Release|Any CPU
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Debug|x86.ActiveCfg = Debug|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Debug|x86.Build.0 = Debug|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Release|Any CPU.ActiveCfg = Release|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Release|x86.ActiveCfg = Release|x86
+		{96AF0C44-F7FD-44CD-9E54-9B1D3281AAEF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
