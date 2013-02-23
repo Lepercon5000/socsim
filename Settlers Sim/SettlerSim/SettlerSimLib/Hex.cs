@@ -37,10 +37,11 @@ namespace SettlerSimLib
             diceRollValue = -1;
 
             neighboringHexes = new Hex[6];
-            for (int i = 0; i < 6; ++i)
-                neighboringHexes[i] = null;
-
             Points = new PointCollection();
+            for (int i = 0; i < 6; ++i)
+            {
+                neighboringHexes[i] = null;
+            }
         }
 
         private void ConnectLocationPoints(NeighboringHex neighboringHex, LocationPoints thisLocation, LocationPoints neighboringLocation)

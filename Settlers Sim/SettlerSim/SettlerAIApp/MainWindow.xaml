@@ -7,6 +7,7 @@
         Background="Blue">
     <Window.Resources>
         <converters:TileTypeToColorConverter x:Key="tileTypeToColorConverter"/>
+        <converters:LocationPointBoolToColor x:Key="locationPointBoolToColor"/>
     </Window.Resources>
     <Window.DataContext>
         <vm:SettlerBoardVM/>
@@ -25,6 +26,23 @@
                             <TranslateTransform X="{Binding OffsetX}"
                                                 Y="{Binding OffsetY}"/>
                         </Canvas.RenderTransform>
+                    </Canvas>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding LocationPoints}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:LocationPointVM}">
+                    <Canvas>
+                        <Ellipse Stretch="Fill"
+                                 Fill="{Binding IsAHarbor, Converter={StaticResource locationPointBoolToColor}}"
+                                 Width="{Binding ElipseSize}"
+                                 Height="{Binding ElipseSize}">
+                            <Ellipse.RenderTransform>
+                                <TranslateTransform X="{Binding OffsetX}"
+                                                Y="{Binding OffsetY}"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
                     </Canvas>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -29,32 +29,30 @@ namespace SettlerSimLib
 
             for(int i = 7; i < 12; ++i)
             {
+                if (i > 7)
+                    gameArea[i].BottomLeft = gameArea[i + 4];
                 if(i < 11)
                 {
                     gameArea[i].Bottom = gameArea[i + 5];
                     gameArea[i].BottomRight = gameArea[i + 1];
                 }
-                if(i > 7)
-                    gameArea[i].BottomLeft = gameArea[i + 4];
             }
 
             for(int i = 12; i < 16; ++i)
             {
+                if (i > 12)
+                    gameArea[i].BottomLeft = gameArea[i + 3];
                 if(i < 15)
                 {
                     gameArea[i].Bottom = gameArea[i + 4];
                     gameArea[i].BottomRight = gameArea[i + 1];
                 }
-                if(i > 12)
-                    gameArea[i].BottomLeft = gameArea[i + 3];
             }
 
-            for (int i = 16; i < 17; ++i)
+            for (int i = 16; i < 18; ++i)
             {
                 gameArea[i].BottomRight = gameArea[i + 1];
             }
-
-            gameArea[18].TopLeft = gameArea[17];
 
             for (int i = 0; i < 19; ++i)
             {
@@ -244,13 +242,6 @@ namespace SettlerSimLib
             ConnectBoard();
             ConnectPoints();
             SetDiceValuesForHexes();
-
-            for (int i = 0; i < gameArea.Count; ++i)
-            {
-                Hex hex = gameArea[i];
-                Console.WriteLine("Hex " + i + " has type " + Enum.GetName(typeof(LandType), hex.LandType) + " with dice value of " + hex.DiceRollValue);
-            }
-            Console.ReadLine();
         }
 
         public List<IHex> GameBoard

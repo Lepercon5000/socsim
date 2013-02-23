@@ -55,8 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\LocationPointBoolToColor.cs" />
     <Compile Include="Converters\TileTypeToColorConverter.cs" />
     <Compile Include="ViewModels\HexVM.cs" />
+    <Compile Include="ViewModels\LocationPointVM.cs" />
     <Compile Include="ViewModels\SettlerBoardVM.cs" />
     <Page Include="Dictionary.xaml">
       <SubType>Designer</SubType>

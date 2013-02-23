@@ -12,12 +12,12 @@ namespace SettlerAIApp.ViewModels
 {
     public class HexVM : INotifyPropertyChanged
     {
-        private double h;
-        private double r;
-        private double a;
-        private double b;
+        public double h;
+        public double r;
+        public double a;
+        public double b;
         private double z;
-        private double s;
+        public double s;
         private void CalulateHexagonValues()
         {
             s = 50;
@@ -87,6 +87,13 @@ namespace SettlerAIApp.ViewModels
         }
 
         private IHex hexModel;
+        public IHex HexModel
+        {
+            get
+            {
+                return hexModel;
+            }
+        }
 
         public LandType TileType
         {
