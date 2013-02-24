@@ -42,6 +42,8 @@ namespace SettlerSimLib
             edges = new List<Edge>();
             attachedHex.Add(attachingHex);
             Harbor = SeaHarbor.NotHarbor;
+            playerOwner = 0;
+            isACity = false;
         }
 
         public IEnumerable<IHex> AttachedHex
@@ -59,6 +61,32 @@ namespace SettlerSimLib
                 return edges;
             }
         }
+
+        private int playerOwner;
+        public int PlayerOwner
+        {
+            get
+            {
+                return playerOwner;
+            }
+            set
+            {
+                playerOwner = value;
+            }
+        }
+
+        private bool isACity;
+        public bool IsACity
+        {
+            get
+            {
+                return isACity;
+            }
+            set
+            {
+                isACity = value;
+            }
+        }
     }
 
     public interface ILocationPoint
@@ -72,6 +100,14 @@ namespace SettlerSimLib
             get;
         }
         SeaHarbor Harbor
+        {
+            get;
+        }
+        int PlayerOwner
+        {
+            get;
+        }
+        bool IsACity
         {
             get;
         }

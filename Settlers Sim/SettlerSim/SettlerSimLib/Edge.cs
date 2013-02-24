@@ -14,6 +14,7 @@ namespace SettlerSimLib
             connectingPoints = new LocationPoint[2];
             connectingPoints[0] = point1;
             connectingPoints[1] = point2;
+            playerOwner = 0;
         }
 
         public ILocationPoint[] ConnectingPoints
@@ -39,6 +40,31 @@ namespace SettlerSimLib
                 return connectingPoints[1];
             }
         }
+
+        public ILocationPoint GetOppositePoint(ILocationPoint point)
+        {
+            if (point == null)
+                return null;
+            if (!ConnectingPoints.Contains(point))
+                return null;
+            if (ConnectingPoints[0] == point)
+                return connectingPoints[1];
+            else
+                return connectingPoints[0];
+        }
+
+        private int playerOwner;
+        public int PlayerOwner
+        {
+            get
+            {
+                return playerOwner;
+            }
+            set
+            {
+                playerOwner = value;
+            }
+        }
     }
 
     public interface IEdge
@@ -55,5 +81,11 @@ namespace SettlerSimLib
         {
             get;
         }
+        int PlayerOwner
+        {
+            get;
+        }
+
+        ILocationPoint GetOppositePoint(ILocationPoint point);
     }
 }

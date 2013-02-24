@@ -10,7 +10,7 @@ namespace SettlerSim
     {
         static void Main(string[] args)
         {
-            SettlerSimLib.SettlerBoard testing = new SettlerSimLib.SettlerBoard();
+            SettlerSimLib.SettlerBoard testing = SettlerSimLib.SettlerBoard.Instance;
 
             List<IHex> testBoard = testing.GameBoard;
 

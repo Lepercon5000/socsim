@@ -255,9 +255,20 @@ namespace SettlerSimLib
             }
         }
 
-        public SettlerBoard()
+        private SettlerBoard()
         {
             SetupGameBoard();
+        }
+
+        private static SettlerBoard instance;
+        public static SettlerBoard Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new SettlerBoard();
+                return instance;
+            }
         }
     }
 }

@@ -40,13 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building\BuildingInterface.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="Hex.cs" />
     <Compile Include="LocationPoint.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="PointCollection.cs" />
     <Compile Include="SettlerBoard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Development\" />
+    <Folder Include="Trading\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

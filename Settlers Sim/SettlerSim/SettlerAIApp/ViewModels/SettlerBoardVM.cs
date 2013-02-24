@@ -12,7 +12,7 @@ namespace SettlerAIApp.ViewModels
     {
         public SettlerBoardVM()
         {
-            model = new SettlerBoard();
+            model = SettlerBoard.Instance;
             hexTiles = new ObservableCollection<HexVM>();
             locationPoints = new ObservableCollection<LocationPointVM>();
             foreach (IHex hex in model.GameBoard)
