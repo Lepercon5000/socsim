@@ -5,6 +5,8 @@ using System.Text;
 
 namespace SettlerSimLib
 {
+    using Building;
+
     internal class Edge : IEdge
     {
         private LocationPoint[] connectingPoints;

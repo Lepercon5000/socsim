@@ -55,7 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\CityOrSettlementToVisibility.cs" />
     <Compile Include="Converters\LocationPointBoolToColor.cs" />
+    <Compile Include="Converters\PlayerOwnerToColor.cs" />
+    <Compile Include="Converters\PlayerOwnerToOpacity.cs" />
     <Compile Include="Converters\TileTypeToColorConverter.cs" />
     <Compile Include="ViewModels\HexVM.cs" />
     <Compile Include="ViewModels\LocationPointVM.cs" />

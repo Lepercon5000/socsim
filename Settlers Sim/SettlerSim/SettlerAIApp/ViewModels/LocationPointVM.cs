@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using SettlerSimLib;
+using SettlerSimLib.Building;
 
 namespace SettlerAIApp.ViewModels
 {
@@ -14,6 +15,27 @@ namespace SettlerAIApp.ViewModels
             locationPoint = pointModel;
             offsetX = x - (ElipseSize/2.0);
             offsetY = y - (ElipseSize/2.0);
+            BuildingInterface.Instance.CityWasBuilt += new CityBuiltHandler(CityWasBuilt);
+            BuildingInterface.Instance.SettlementWasBuilt += new SettlementBuiltHandler(SettlementWasBuilt);
+        }
+
+        void SettlementWasBuilt(object sender, SettlementBuiltArgs args)
+        {
+            if (args.Settlement == this.locationPoint)
+            {
+                RaiseChange("PlayerOwner");
+                RaiseChange("IsASettlement");
+                RaiseChange("IsACity");
+            }
+        }
+
+        void CityWasBuilt(object sender, CityBuiltArgs args)
+        {
+            if (args.City == this.locationPoint)
+            {
+                RaiseChange("IsASettlement");
+                RaiseChange("IsACity");
+            }
         }
 
         private ILocationPoint locationPoint;
@@ -56,6 +78,30 @@ namespace SettlerAIApp.ViewModels
             get
             {
                 return locationPoint.Harbor != SeaHarbor.NotHarbor;
+            }
+        }
+
+        public int PlayerOwner
+        {
+            get
+            {
+                return this.locationPoint.PlayerOwner;
+            }
+        }
+
+        public bool IsACity
+        {
+            get
+            {
+                return locationPoint.IsACity;
+            }
+        }
+
+        public bool IsASettlement
+        {
+            get
+            {
+                return !IsACity;
             }
         }
 

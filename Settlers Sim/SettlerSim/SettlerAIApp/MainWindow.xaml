@@ -8,6 +8,9 @@
     <Window.Resources>
         <converters:TileTypeToColorConverter x:Key="tileTypeToColorConverter"/>
         <converters:LocationPointBoolToColor x:Key="locationPointBoolToColor"/>
+        <converters:CityOrSettlementToVisibility x:Key="cityOrSettlementToVisibility"/>
+        <converters:PlayerOwnerToOpacity x:Key="playerOwnerToOpacity"/>
+        <converters:PlayerOwnerToColor x:Key="playerOwnerToColor"/>
     </Window.Resources>
     <Window.DataContext>
         <vm:SettlerBoardVM/>
@@ -17,7 +20,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:HexVM}">
                     <Canvas>
-                    <Path Stretch="Fill"
+                        <Path Stretch="Fill"
               Fill="{Binding TileType, Converter={StaticResource tileTypeToColorConverter}}"
               RenderTransformOrigin="0.5,0.5"
               Data="{Binding DataGeometry}"/>
@@ -34,15 +37,30 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type vm:LocationPointVM}">
                     <Canvas>
-                        <Ellipse Stretch="Fill"
-                                 Fill="{Binding IsAHarbor, Converter={StaticResource locationPointBoolToColor}}"
+                        <Ellipse 
+                                 Stretch="Fill"
+                                 Fill="{Binding PlayerOwner, Converter={StaticResource playerOwnerToColor}}"
                                  Width="{Binding ElipseSize}"
-                                 Height="{Binding ElipseSize}">
+                                 Height="{Binding ElipseSize}"
+                                 Opacity="{Binding PlayerOwner, Converter={StaticResource playerOwnerToOpacity}}"
+                                 Visibility="{Binding IsASettlement, Converter={StaticResource cityOrSettlementToVisibility}}">
                             <Ellipse.RenderTransform>
                                 <TranslateTransform X="{Binding OffsetX}"
                                                 Y="{Binding OffsetY}"/>
                             </Ellipse.RenderTransform>
                         </Ellipse>
+                        <Polygon
+                            Points="0,0 0,10 10,10 10,0"
+                            Fill="{Binding PlayerOwner, Converter={StaticResource playerOwnerToColor}}"
+                            Width="{Binding ElipseSize}"
+                            Height="{Binding ElipseSize}"
+                            Opacity="{Binding PlayerOwner, Converter={StaticResource playerOwnerToOpacity}}"
+                            Visibility="{Binding IsACity, Converter={StaticResource cityOrSettlementToVisibility}}">
+                            <Polygon.RenderTransform>
+                                <TranslateTransform X="{Binding OffsetX}"
+                                                Y="{Binding OffsetY}"/>
+                            </Polygon.RenderTransform>
+                        </Polygon>
                     </Canvas>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

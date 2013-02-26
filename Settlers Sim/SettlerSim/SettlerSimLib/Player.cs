@@ -9,12 +9,36 @@ namespace SettlerSimLib
     {
         public Player()
         {
+            resourceHand = new List<CardType>();
+            ++playersNumber;
+            playerNumber = playersNumber;
         }
 
+        private static int playersNumber = 0;
+
+        private int playerNumber;
         public int PlayerNumber
         {
-            get;
-            set;
+            get
+            {
+                return playerNumber;
+            }
+        }
+
+        private List<CardType> resourceHand;
+
+        public bool TakeResource(List<CardType> cardsToTake)
+        {
+            foreach (CardType card in cardsToTake)
+            {
+                if (!resourceHand.Contains(card))
+                    return false;
+            }
+
+            foreach (CardType cardToTake in cardsToTake)
+                resourceHand.Remove(cardToTake);
+
+            return true;
         }
 
         // What can players do on there turn
@@ -30,6 +54,6 @@ namespace SettlerSimLib
 
         // Development card Interface :
         // Can buy Development cards
-        // Can play Development carda
+        // Can play Development cards
     }
 }

@@ -28,7 +28,46 @@ namespace SettlerSimLib.Building
             }
         }
 
-        // TODO: need to take the resources from the player still.
+        public static List<CardType> RoadCost
+        {
+            get
+            {
+                return new List<CardType>()
+                {
+                    CardType.Clay,
+                    CardType.Wood
+                };
+            }
+        }
+
+        public static List<CardType> SettlementCost
+        {
+            get
+            {
+                return new List<CardType>()
+                {
+                    CardType.Clay,
+                    CardType.Wood,
+                    CardType.Wheat,
+                    CardType.Sheep
+                };
+            }
+        }
+
+        public static List<CardType> CityCost
+        {
+            get
+            {
+                return new List<CardType>()
+                {
+                    CardType.Wheat,
+                    CardType.Wheat,
+                    CardType.Rock,
+                    CardType.Rock,
+                    CardType.Rock
+                };
+            }
+        }
 
         public bool BuildRoad(IEdge roadEdge, Player player)
         {
@@ -42,9 +81,13 @@ namespace SettlerSimLib.Building
                 if(roadEdge.Point1.PlayerOwner != player.PlayerNumber && roadEdge.Point2.PlayerOwner != player.PlayerNumber)
                     return false;
             }
-
-            ((Edge)roadEdge).PlayerOwner = player.PlayerNumber;
-            return true;
+            if (player.TakeResource(RoadCost))
+            {
+                ((Edge)roadEdge).PlayerOwner = player.PlayerNumber;
+                this.RoadWasBuilt(this, new RoadBuiltArgs(roadEdge));
+                return true;
+            }
+            return false;
         }
 
         public bool BuildSettlement(ILocationPoint locationPoint, Player player)
@@ -58,8 +101,13 @@ namespace SettlerSimLib.Building
             // check if the point is two edges away from all settlements players
             if (locationPoint.Edges.Any((edge) => edge.GetOppositePoint(locationPoint).PlayerOwner != 0))
                 return false;
-            ((LocationPoint)locationPoint).PlayerOwner = player.PlayerNumber;
-            return true;
+            if (player.TakeResource(SettlementCost))
+            {
+                ((LocationPoint)locationPoint).PlayerOwner = player.PlayerNumber;
+                this.SettlementWasBuilt(this, new SettlementBuiltArgs(locationPoint));
+                return true;
+            }
+            return false;
         }
 
         public bool BuildCity(ILocationPoint locationPoint, Player player)
@@ -70,8 +118,76 @@ namespace SettlerSimLib.Building
             // if the spot is already a city, you can't build another city
             if (locationPoint.IsACity)
                 return false;
-            ((LocationPoint)locationPoint).IsACity = true;
-            return true;
+            if (player.TakeResource(CityCost))
+            {
+                ((LocationPoint)locationPoint).IsACity = true;
+                this.CityWasBuilt(this, new CityBuiltArgs(locationPoint));
+                return true;
+            }
+            return false;
+        }
+
+        public event RoadBuiltHandler RoadWasBuilt;
+
+        public event SettlementBuiltHandler SettlementWasBuilt;
+
+        public event CityBuiltHandler CityWasBuilt;
+    }
+
+    public delegate void RoadBuiltHandler(object sender, RoadBuiltArgs args);
+
+    public delegate void SettlementBuiltHandler(object sender, SettlementBuiltArgs args);
+
+    public delegate void CityBuiltHandler(object sender, CityBuiltArgs args);
+
+    public class RoadBuiltArgs : System.EventArgs
+    {
+        private IEdge road;
+        public IEdge Road
+        {
+            get
+            {
+                return road;
+            }
+        }
+
+        public RoadBuiltArgs(IEdge roadBuiltOn)
+        {
+            road = roadBuiltOn;
+        }
+    }
+
+    public class SettlementBuiltArgs : System.EventArgs
+    {
+        private ILocationPoint settlement;
+        public ILocationPoint Settlement
+        {
+            get
+            {
+                return settlement;
+            }
+        }
+
+        public SettlementBuiltArgs(ILocationPoint settlementBuildPoint)
+        {
+            settlement = settlementBuildPoint;
+        }
+    }
+
+    public class CityBuiltArgs : System.EventArgs
+    {
+        private ILocationPoint city;
+        public ILocationPoint City
+        {
+            get
+            {
+                return city;
+            }
+        }
+
+        public CityBuiltArgs(ILocationPoint cityBuildPoint)
+        {
+            city = cityBuildPoint;
         }
     }
 }

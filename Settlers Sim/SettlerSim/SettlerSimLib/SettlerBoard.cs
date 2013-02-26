@@ -242,6 +242,14 @@ namespace SettlerSimLib
             ConnectBoard();
             ConnectPoints();
             SetDiceValuesForHexes();
+
+            //LocationPoint locPoint = ((LocationPoint)gameArea[0].LocationPointsEnum.First());
+            //locPoint.PlayerOwner = 1;
+            //Edge edge = ((Edge)locPoint.Edges.First());
+            //edge.PlayerOwner = 1;
+            //locPoint = ((LocationPoint)edge.GetOppositePoint(locPoint));
+            //edge = ((Edge)locPoint.Edges.First((e)=> e != edge));
+            //edge.PlayerOwner = 1;
         }
 
         public List<IHex> GameBoard
