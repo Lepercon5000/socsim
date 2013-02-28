@@ -60,6 +60,7 @@
     <Compile Include="Converters\PlayerOwnerToColor.cs" />
     <Compile Include="Converters\PlayerOwnerToOpacity.cs" />
     <Compile Include="Converters\TileTypeToColorConverter.cs" />
+    <Compile Include="ViewModels\EdgeVM.cs" />
     <Compile Include="ViewModels\HexVM.cs" />
     <Compile Include="ViewModels\LocationPointVM.cs" />
     <Compile Include="ViewModels\SettlerBoardVM.cs" />

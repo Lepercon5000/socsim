@@ -65,5 +65,26 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <ItemsControl ItemsSource="{Binding Edges}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:EdgeVM}">
+                    <Canvas>
+                        <Rectangle
+                            Fill="{Binding PlayerOwner, Converter={StaticResource playerOwnerToColor}}"
+                            Opacity="{Binding PlayerOwner, Converter={StaticResource playerOwnerToOpacity}}"
+                            RenderTransformOrigin="0.0,0.5"
+                            Height="10"
+                            Width="50">
+                            <Rectangle.RenderTransform>
+                                <TransformGroup>
+                                    <TranslateTransform X="{Binding CenterX}" Y="{Binding CenterY}"/>
+                                    <RotateTransform CenterX="{Binding CenterX}" CenterY="{Binding CenterY}" Angle="{Binding RotateAngle}"/>
+                                </TransformGroup>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </Canvas>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Canvas>
 </Window>
